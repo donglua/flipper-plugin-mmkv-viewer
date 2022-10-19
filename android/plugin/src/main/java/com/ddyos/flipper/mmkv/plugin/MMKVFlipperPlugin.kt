@@ -89,6 +89,10 @@ class MMKVFlipperPlugin : FlipperPlugin {
      * get value with object type, because type-erasure inside mmkv
      */
     private fun getObjectValue(mmkv: MMKV, key: String): Any? {
+        val bytes = mmkv.decodeBytes(key)
+        if (bytes != null) {
+            return "[bytes](${bytes.size})"
+        }
         // string or string-set
         val value = mmkv.decodeString(key)
         if (!TextUtils.isEmpty(value)) {
