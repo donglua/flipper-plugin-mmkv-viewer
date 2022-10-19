@@ -91,7 +91,11 @@ class MMKVFlipperPlugin : FlipperPlugin {
     private fun getObjectValue(mmkv: MMKV, key: String): Any? {
         val bytes = mmkv.decodeBytes(key)
         if (bytes != null) {
-            return "[bytes](${bytes.size})"
+            try {
+                return String(bytes, Charsets.UTF_8)
+            } catch (e: Exception) {
+                return "[bytes](${bytes.size})"
+            }
         }
         // string or string-set
         val value = mmkv.decodeString(key)
